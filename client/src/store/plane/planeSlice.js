@@ -27,6 +27,12 @@ const planeSlice = createSlice({
       isError: false,
       isLoading: true,
       message: '',
+      errors: null,
+   },
+   reducers: {
+      resetPlaneErrors: state => {
+         state.errors = null
+      },
    },
    extraReducers: builder => {
       builder.addCase(getPlane.pending, state => {
@@ -42,7 +48,18 @@ const planeSlice = createSlice({
          state.message = action.payload.message
          state.plane = null
       })
+
+      builder.addCase(createPlane.fulfilled, state => {
+         state.isLoading = false
+         state.errors = null
+      })
+      builder.addCase(createPlane.rejected, (state, action) => {
+         state.isError = true
+         state.isLoading = false
+         state.errors = action.payload
+      })
    },
 })
 
+export const { resetPlaneErrors } = planeSlice.actions
 export default planeSlice.reducer

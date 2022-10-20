@@ -10,7 +10,13 @@ const getPlane = async id => {
    return planes.data
 }
 
+const createPlane = async planeData => {
+   const plane = await axios.post('/api/planes', planeData) //http://localhost:8000/api/planes(POST)
+   return plane.data
+}
+
 export const planesService = {
    getPlanes,
    getPlane,
+   createPlane,
 }
